@@ -1,5 +1,6 @@
 package cn.leo.permissionlib;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -29,8 +30,17 @@ public class PermissionAspect {
         Method method = signature.getMethod();
         PermissionRequest annotation = method.getAnnotation(PermissionRequest.class);
         PermissionEnum[] permission = annotation.value();
-        final FragmentActivity target = (FragmentActivity) joinPoint.getTarget();
-        PermissionUtil.getInstance(target)
+        Object target = joinPoint.getTarget();
+        FragmentActivity fragmentActivity;
+        if (target instanceof FragmentActivity) {
+            fragmentActivity = (FragmentActivity) target;
+        } else if (target instanceof Fragment) {
+            fragmentActivity = ((Fragment) target).getActivity();
+        } else {
+            throw new NullPointerException("注解权限申请只能在FragmentActivity或者Fragment环境");
+        }
+        final FragmentActivity finalFragmentActivity = fragmentActivity;
+        PermissionUtil.getInstance(fragmentActivity)
                 .request(permission)
                 .execute(new PermissionUtil.Result() {
                     @Override
@@ -44,7 +54,7 @@ public class PermissionAspect {
 
                     @Override
                     public void onFailed() {
-                        Toast.makeText(target, "获取权限失败，操作无法完成!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(finalFragmentActivity, "获取权限失败，操作无法完成!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
