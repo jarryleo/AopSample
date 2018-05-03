@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.jakewharton.hugo'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -12,7 +12,7 @@ android {
     }
     buildTypes {
         debug {
-            debuggable false
+            debuggable true
         }
         release {
             minifyEnabled false
@@ -28,8 +28,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    //implementation project(':permissionlib')
-    compile 'com.github.jarryleo:AopSample:v1.0'
+    implementation project(':permissionlib')
+    //compile 'com.github.jarryleo:AopSample:v1.0'
 }
 
 
@@ -38,9 +38,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.9'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
+/*
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
@@ -82,3 +83,4 @@ variants.all { variant ->
         }
     }
 }
+*/

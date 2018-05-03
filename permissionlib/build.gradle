@@ -1,17 +1,6 @@
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.hugo'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.9'
-    }
-}
 android {
     compileSdkVersion 26
 
@@ -43,6 +32,19 @@ dependencies {
     compile 'org.aspectj:aspectjrt:1.8.9'
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.9'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+    }
+}
+
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
 
 android.libraryVariants.all { variant ->
     JavaCompile javaCompile = variant.javaCompile
@@ -53,9 +55,7 @@ android.libraryVariants.all { variant ->
                          "-aspectpath", javaCompile.classpath.asPath,
                          "-d", javaCompile.destinationDir.toString(),
                          "-classpath", javaCompile.classpath.asPath,
-                         "-bootclasspath", android.bootClasspath.join(
-                File.pathSeparator)]
-
+                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
         MessageHandler handler = new MessageHandler(true);
         new Main().run(args, handler)
 
