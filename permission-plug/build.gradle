@@ -12,6 +12,15 @@ dependencies {
     compile 'org.aspectj:aspectjrt:1.8.9'
 }
 
+// 代码仓库
+repositories{
+    jcenter()
+}
+
+group = 'cn.leo.plugin'  // 组名
+version = '1.0.2' // 版本
+
+
 /*uploadArchives {
     repositories {
         mavenDeployer {
@@ -22,3 +31,6 @@ dependencies {
         }
     }
 }*/
+
+// 应用插件
+apply from: '../bintray.gradle'

@@ -30,15 +30,13 @@ class PermissionPlug implements Plugin<Project> {
             compile 'org.aspectj:aspectjrt:1.8.9'
         }
 
-        project.extensions.create('hugo', HugoExtension)
-
         variants.all { variant ->
 
             JavaCompile javaCompile = variant.javaCompile
             javaCompile.doLast {
                 String[] args = [
                         "-showWeaveInfo",
-                        "-1.5",
+                        "-1.8",
                         "-inpath", javaCompile.destinationDir.toString(),
                         "-aspectpath", javaCompile.classpath.asPath,
                         "-d", javaCompile.destinationDir.toString(),
