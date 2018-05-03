@@ -1,6 +1,6 @@
 # AopSample
 ## 面向切片的动态权限申请
-### 使用方法
+### 使用方法(注意:只能在Fragment(v4)和FragmentActivity里面使用)
 ```
     @PermissionRequest({PermissionEnum.CAMERA, PermissionEnum.READ_EXTERNAL_STORAGE})
     public void testPermission() {
@@ -8,7 +8,8 @@
     }
 ```
 ### 依赖方法:
-Step 1. Add the JitPack repository to your build file （project build）
+Step 1. Add the JitPack repository to your build file （project build）,
+
 Add it in your root build.gradle at the end of repositories:
 ```
     	allprojects {
