@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 26
@@ -38,7 +37,6 @@ buildscript {
     }
     dependencies {
         classpath 'org.aspectj:aspectjtools:1.8.9'
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
@@ -56,7 +54,7 @@ android.libraryVariants.all { variant ->
                          "-d", javaCompile.destinationDir.toString(),
                          "-classpath", javaCompile.classpath.asPath,
                          "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-        MessageHandler handler = new MessageHandler(true);
+        MessageHandler handler = new MessageHandler(true)
         new Main().run(args, handler)
 
         def log = project.logger
@@ -66,14 +64,14 @@ android.libraryVariants.all { variant ->
                 case IMessage.ERROR:
                 case IMessage.FAIL:
                     log.error message.message, message.thrown
-                    break;
+                    break
                 case IMessage.WARNING:
                 case IMessage.INFO:
                     log.info message.message, message.thrown
-                    break;
+                    break
                 case IMessage.DEBUG:
                     log.debug message.message, message.thrown
-                    break;
+                    break
             }
         }
     }
