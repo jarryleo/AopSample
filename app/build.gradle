@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'cn.leo.plugin.permission'
+//apply plugin: 'cn.leo.plugin.permission'
 
 android {
     compileSdkVersion 26

@@ -47,7 +47,7 @@ install {
 //配置上传Bintray相关信息
 bintray {
     user = 'xxxx'
-    key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
     configurations = ['archives']
     pkg {
