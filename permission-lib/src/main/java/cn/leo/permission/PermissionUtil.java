@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionGroupInfo;
+import android.content.pm.PermissionInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
@@ -77,14 +79,19 @@ public class PermissionUtil {
                 } else {
                     if (SystemClock.elapsedRealtime() - mRequestTime < 300) {
                         StringBuilder sb = new StringBuilder();
-                        for (String mPermission : mPermissions) {
-                            if (!PermissionUtil.checkPermission(getActivity(), mPermission)) {
-                                sb.append(" [")
-                                        .append(mPermission)
-                                        .append("] ");
+                        for (String permission : mPermissions) {
+                            if (!PermissionUtil.checkPermission(getActivity(), permission)) {
+                                String permissionName = getPermissionName(getActivity(), permission);
+                                if (!permissionName.isEmpty()) {
+                                    sb.append(" [")
+                                            .append(permissionName)
+                                            .append("] ");
+                                }
                             }
                         }
-                        openSettingActivity(getString(R.string.permission_should_show_rationale, sb.toString()));
+                        String permissionList = sb.toString();
+                        String s = permissionList.replaceAll("(\\s\\[.*\\]\\s)\\1+", "$1");
+                        openSettingActivity(getString(R.string.permission_should_show_rationale, s));
                     } else {
                         mResult.onFailed();
                     }
@@ -156,6 +163,7 @@ public class PermissionUtil {
                                          DialogInterface.OnClickListener cancelListener) {
             new AlertDialog.Builder(getActivity())
                     .setMessage(message)
+                    .setCancelable(false)
                     .setPositiveButton(getString(R.string.permission_dialog_granted), okListener)
                     .setNegativeButton(getString(R.string.permission_dialog_denied), cancelListener)
                     .create()
@@ -272,6 +280,27 @@ public class PermissionUtil {
     }
 
     /**
+     * 获取权限的名称,自动按设备语言显示
+     *
+     * @param context    上下文
+     * @param permission 权限
+     * @return 权限名称
+     */
+    private static String getPermissionName(Context context, String permission) {
+        String permissionName = "";
+        PackageManager pm = context.getPackageManager();
+        try {
+            PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
+            PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(permissionInfo.group, 0);
+            permissionName = groupInfo.loadLabel(pm).toString();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return permissionName;
+    }
+
+    /**
      * 申请权限
      */
     private void requestPermission() {
@@ -287,15 +316,20 @@ public class PermissionUtil {
             for (int i = 0; i < mPermissions.length; i++) {
                 per[i] = mPermissions[i];
                 if (!checkPermission(mPermissions[i])) {
-                    sb.append(" [")
-                            .append(mPermissions[i])
-                            .append("] ");
+                    String permissionName = getPermissionName(mActivity, mPermissions[i]);
+                    if (!permissionName.isEmpty()) {
+                        sb.append(" [")
+                                .append(permissionName)
+                                .append("] ");
+                    }
                 }
             }
+            String permissionList = sb.toString();
+            String s = permissionList.replaceAll("(\\s\\[.*\\]\\s)\\1+", "$1");
             //如果用户点了不提示(或者同时申请多个权限)，我们主动提示用户
             if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, mPermissions[0])) {
                 mFragmentCallback.openSettingActivity(
-                        mActivity.getString(R.string.permission_should_show_rationale, sb.toString()));
+                        mActivity.getString(R.string.permission_should_show_rationale, s));
             } else {
                 //申请权限
                 try {
@@ -303,7 +337,7 @@ public class PermissionUtil {
                     mFragmentCallback.requestPermissions(per, REQUEST_CODE);
                 } catch (Exception e) {
                     mFragmentCallback.openSettingActivity(
-                            mActivity.getString(R.string.permission_should_show_rationale, sb.toString()));
+                            mActivity.getString(R.string.permission_should_show_rationale, s));
                 }
             }
         }
