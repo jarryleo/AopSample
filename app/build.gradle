@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'cn.leo.permission_plug.permission'
+apply plugin: 'cn.leo.plugin.permission'
 
 android {
     compileSdkVersion 26
@@ -26,18 +26,17 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation project(':permission-lib')
+    //implementation project(':permission-lib')
     //compile 'com.github.jarryleo:AopSample:v1.0'
 }
 
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url  "https://dl.bintray.com/yjtx256/maven"
-        }
+        maven{ url 'https://dl.bintray.com/yjtx256/maven'}
     }
     dependencies {
-        classpath 'cn.leo.plugin:permission-plug:1.0.2'
+        classpath 'cn.leo.plugin:permission-plugin:1.1.2'
     }
 }
+

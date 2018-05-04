@@ -26,8 +26,16 @@ class PermissionPlugin implements Plugin<Project> {
             variants = project.android.libraryVariants
         }
 
+        project.buildscript {
+            repositories {
+                maven {
+                    url 'https://jitpack.io'
+                }
+            }
+        }
         project.dependencies {
-            compile 'org.aspectj:aspectjrt:1.8.9'
+            implementation 'com.github.jarryleo:AopSample:v1.0'
+            implementation 'org.aspectj:aspectjrt:1.8.9'
         }
 
         variants.all { variant ->
