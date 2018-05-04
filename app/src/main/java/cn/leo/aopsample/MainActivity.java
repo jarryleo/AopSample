@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import cn.leo.permission.PermissionRequest;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*@PermissionRequest({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE})*/
+    @PermissionRequest(
+            {Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void testPermission() {
         Toast.makeText(this, "执行权限通过后的业务", Toast.LENGTH_SHORT).show();
     }
