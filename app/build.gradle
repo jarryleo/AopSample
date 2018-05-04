@@ -30,7 +30,7 @@ dependencies {
     //compile 'com.github.jarryleo:AopSample:v1.0'
 }
 
-buildscript {
+/*buildscript {
     repositories {
         jcenter()
         maven{ url 'https://dl.bintray.com/yjtx256/maven'}
@@ -38,5 +38,5 @@ buildscript {
     dependencies {
         classpath 'cn.leo.plugin:permission-plugin:2.0.2'
     }
-}
+}*/
 
