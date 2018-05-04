@@ -1,5 +1,6 @@
 package cn.leo.aopsample;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;

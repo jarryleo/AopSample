@@ -18,7 +18,7 @@ repositories {
 }
 
 group = 'cn.leo.plugin'  // 组名
-version = '1.1.2' // 版本
+version = '2.0.2' // 版本
 
 //上传本地
 /*uploadArchives {

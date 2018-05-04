@@ -34,7 +34,7 @@ class PermissionPlugin implements Plugin<Project> {
             }
         }
         project.dependencies {
-            implementation 'com.github.jarryleo:AopSample:v1.0'
+            implementation 'com.github.jarryleo:AopSample:v2.0'
             implementation 'org.aspectj:aspectjrt:1.8.9'
         }
 

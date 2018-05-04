@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'cn.leo.plugin.permission'
+apply plugin: 'cn.leo.plugin.permission'
 
 android {
     compileSdkVersion 26
@@ -30,13 +30,13 @@ dependencies {
     //compile 'com.github.jarryleo:AopSample:v1.0'
 }
 
-/*buildscript {
+buildscript {
     repositories {
         jcenter()
         maven{ url 'https://dl.bintray.com/yjtx256/maven'}
     }
     dependencies {
-        classpath 'cn.leo.plugin:permission-plugin:1.1.2'
+        classpath 'cn.leo.plugin:permission-plugin:2.0.2'
     }
-}*/
+}
 
