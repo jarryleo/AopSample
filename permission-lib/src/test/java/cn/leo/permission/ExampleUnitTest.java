@@ -1,4 +1,4 @@
-package cn.leo.permissionlib;
+package cn.leo.permission;
 
 import org.junit.Test;
 

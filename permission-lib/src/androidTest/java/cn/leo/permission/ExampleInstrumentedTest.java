@@ -1,4 +1,4 @@
-package cn.leo.permissionlib;
+package cn.leo.permission;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

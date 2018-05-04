@@ -1,4 +1,4 @@
-package cn.leo.permissionlib;
+package cn.leo.permission;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -40,7 +40,7 @@ public class PermissionUtil {
      */
     public static class FragmentCallback extends Fragment {
         private Result mResult;
-        private PermissionEnum[] mPermissions;
+        private String[] mPermissions;
         private long mRequestTime;
 
         public void setRequestTime() {
@@ -51,7 +51,7 @@ public class PermissionUtil {
             mResult = result;
         }
 
-        public void setPermissions(PermissionEnum[] permissions) {
+        public void setPermissions(String[] permissions) {
             mPermissions = permissions;
         }
 
@@ -77,10 +77,10 @@ public class PermissionUtil {
                 } else {
                     if (SystemClock.elapsedRealtime() - mRequestTime < 300) {
                         StringBuilder sb = new StringBuilder();
-                        for (PermissionEnum mPermission : mPermissions) {
+                        for (String mPermission : mPermissions) {
                             if (!PermissionUtil.checkPermission(getActivity(), mPermission)) {
                                 sb.append(" [")
-                                        .append(mPermission.getPermissionCh())
+                                        .append(mPermission)
                                         .append("] ");
                             }
                         }
@@ -98,7 +98,7 @@ public class PermissionUtil {
             if (requestCode == REQUEST_CODE) {
                 if (mResult != null && mPermissions != null) {
                     boolean result = true;
-                    for (PermissionEnum mPermission : mPermissions) {
+                    for (String mPermission : mPermissions) {
                         if (!checkPermission(getActivity(), mPermission)) {
                             result = false;
                             break;
@@ -164,7 +164,7 @@ public class PermissionUtil {
     }
 
     private FragmentActivity mActivity;
-    private PermissionEnum[] mPermissions;
+    private String[] mPermissions;
 
     private PermissionUtil(FragmentActivity activity) {
         this.mActivity = activity;
@@ -187,7 +187,7 @@ public class PermissionUtil {
      * @param permissions 权限列表
      * @return 返回自身链式编程
      */
-    public PermissionUtil request(PermissionEnum... permissions) {
+    public PermissionUtil request(String... permissions) {
         mPermissions = permissions;
         return this;
     }
@@ -229,7 +229,7 @@ public class PermissionUtil {
      * @return 权限列表是否全部通过
      */
     private boolean checkPermissions() {
-        for (PermissionEnum mPermission : mPermissions) {
+        for (String mPermission : mPermissions) {
             if (!checkPermission(mPermission)) {
                 return false;
             }
@@ -240,17 +240,17 @@ public class PermissionUtil {
     /**
      * 检查权限
      *
-     * @param PermissionEnum 权限列表
+     * @param permission 权限列表
      * @return 权限是否通过
      */
-    private boolean checkPermission(PermissionEnum PermissionEnum) {
+    private boolean checkPermission(String permission) {
         //检查权限
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
         int checkSelfPermission =
                 ContextCompat
-                        .checkSelfPermission(mActivity, PermissionEnum.getPermission());
+                        .checkSelfPermission(mActivity, permission);
         return checkSelfPermission == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -258,16 +258,16 @@ public class PermissionUtil {
      * 静态检查权限
      *
      * @param context    上下文
-     * @param PermissionEnum 权限列表
+     * @param permission 权限列表
      * @return 权限是否通过
      */
-    private static boolean checkPermission(Context context, PermissionEnum PermissionEnum) {
+    private static boolean checkPermission(Context context, String permission) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
         int checkSelfPermission =
                 ContextCompat
-                        .checkSelfPermission(context, PermissionEnum.getPermission());
+                        .checkSelfPermission(context, permission);
         return checkSelfPermission == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -285,15 +285,15 @@ public class PermissionUtil {
             String[] per = new String[mPermissions.length];
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < mPermissions.length; i++) {
-                per[i] = mPermissions[i].getPermission();
+                per[i] = mPermissions[i];
                 if (!checkPermission(mPermissions[i])) {
                     sb.append(" [")
-                            .append(mPermissions[i].getPermissionCh())
+                            .append(mPermissions[i])
                             .append("] ");
                 }
             }
             //如果用户点了不提示(或者同时申请多个权限)，我们主动提示用户
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, mPermissions[0].getPermission())) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, mPermissions[0])) {
                 mFragmentCallback.openSettingActivity("需要" + sb.toString() + "权限,前往开启?");
             } else {
                 //申请权限
@@ -304,13 +304,6 @@ public class PermissionUtil {
                     mFragmentCallback.openSettingActivity("需要" + sb.toString() + "权限,前往开启?");
                 }
             }
-        }
-    }
-
-
-    static class PermissionRequestException extends RuntimeException {
-        PermissionRequestException(String message) {
-            super(message);
         }
     }
 }
@@ -354,47 +347,47 @@ WRITE_SYNC_SETTINGS
 
 •Dangerous Permissions: (需要动态申请，当然也要在清单文件声明)
 
-group:android.PermissionEnum-group.CONTACTS
-  PermissionEnum:android.PermissionEnum.WRITE_CONTACTS
-  PermissionEnum:android.PermissionEnum.GET_ACCOUNTS
-  PermissionEnum:android.PermissionEnum.READ_CONTACTS
+group:android.String-group.CONTACTS
+  String:android.String.WRITE_CONTACTS
+  String:android.String.GET_ACCOUNTS
+  String:android.String.READ_CONTACTS
 
-group:android.PermissionEnum-group.PHONE
-  PermissionEnum:android.PermissionEnum.READ_CALL_LOG
-  PermissionEnum:android.PermissionEnum.READ_PHONE_STATE
-  PermissionEnum:android.PermissionEnum.CALL_PHONE
-  PermissionEnum:android.PermissionEnum.WRITE_CALL_LOG
-  PermissionEnum:android.PermissionEnum.USE_SIP
-  PermissionEnum:android.PermissionEnum.PROCESS_OUTGOING_CALLS
-  PermissionEnum:com.android.voicemail.PermissionEnum.ADD_VOICEMAIL
+group:android.String-group.PHONE
+  String:android.String.READ_CALL_LOG
+  String:android.String.READ_PHONE_STATE
+  String:android.String.CALL_PHONE
+  String:android.String.WRITE_CALL_LOG
+  String:android.String.USE_SIP
+  String:android.String.PROCESS_OUTGOING_CALLS
+  String:com.android.voicemail.String.ADD_VOICEMAIL
 
-group:android.PermissionEnum-group.CALENDAR
-  PermissionEnum:android.PermissionEnum.READ_CALENDAR
-  PermissionEnum:android.PermissionEnum.WRITE_CALENDAR
+group:android.String-group.CALENDAR
+  String:android.String.READ_CALENDAR
+  String:android.String.WRITE_CALENDAR
 
-group:android.PermissionEnum-group.CAMERA
-  PermissionEnum:android.PermissionEnum.CAMERA
+group:android.String-group.CAMERA
+  String:android.String.CAMERA
 
-group:android.PermissionEnum-group.SENSORS
-  PermissionEnum:android.PermissionEnum.BODY_SENSORS
+group:android.String-group.SENSORS
+  String:android.String.BODY_SENSORS
 
-group:android.PermissionEnum-group.LOCATION
-  PermissionEnum:android.PermissionEnum.ACCESS_FINE_LOCATION
-  PermissionEnum:android.PermissionEnum.ACCESS_COARSE_LOCATION
+group:android.String-group.LOCATION
+  String:android.String.ACCESS_FINE_LOCATION
+  String:android.String.ACCESS_COARSE_LOCATION
 
-group:android.PermissionEnum-group.STORAGE
-  PermissionEnum:android.PermissionEnum.READ_EXTERNAL_STORAGE
-  PermissionEnum:android.PermissionEnum.WRITE_EXTERNAL_STORAGE
+group:android.String-group.STORAGE
+  String:android.String.READ_EXTERNAL_STORAGE
+  String:android.String.WRITE_EXTERNAL_STORAGE
 
-group:android.PermissionEnum-group.MICROPHONE
-  PermissionEnum:android.PermissionEnum.RECORD_AUDIO
+group:android.String-group.MICROPHONE
+  String:android.String.RECORD_AUDIO
 
-group:android.PermissionEnum-group.SMS
-  PermissionEnum:android.PermissionEnum.READ_SMS
-  PermissionEnum:android.PermissionEnum.RECEIVE_WAP_PUSH
-  PermissionEnum:android.PermissionEnum.RECEIVE_MMS
-  PermissionEnum:android.PermissionEnum.RECEIVE_SMS
-  PermissionEnum:android.PermissionEnum.SEND_SMS
-  PermissionEnum:android.PermissionEnum.READ_CELL_BROADCASTS
+group:android.String-group.SMS
+  String:android.String.READ_SMS
+  String:android.String.RECEIVE_WAP_PUSH
+  String:android.String.RECEIVE_MMS
+  String:android.String.RECEIVE_SMS
+  String:android.String.SEND_SMS
+  String:android.String.READ_CELL_BROADCASTS
 
 */

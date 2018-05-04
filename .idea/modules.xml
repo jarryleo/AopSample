@@ -4,8 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AopSample.iml" filepath="$PROJECT_DIR$/AopSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/permission-plug/permission-plug.iml" filepath="$PROJECT_DIR$/permission-plug/permission-plug.iml" />
-      <module fileurl="file://$PROJECT_DIR$/permissionlib/permissionlib.iml" filepath="$PROJECT_DIR$/permissionlib/permissionlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/permission-lib/permissionlib.iml" filepath="$PROJECT_DIR$/permission-lib/permissionlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/permission-plugin/permission-plug.iml" filepath="$PROJECT_DIR$/permission-plugin/permission-plug.iml" />
     </modules>
   </component>
 </project>

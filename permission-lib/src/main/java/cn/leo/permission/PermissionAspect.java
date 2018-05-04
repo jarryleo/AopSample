@@ -1,4 +1,4 @@
-package cn.leo.permissionlib;
+package cn.leo.permission;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class PermissionAspect {
     private static final String POINTCUT_METHOD =
-            "execution(@cn.leo.permissionlib.PermissionRequest * *(..))";
+            "execution(@cn.leo.permission.PermissionRequest * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void methodAnnotatedWithPermission() {
@@ -29,7 +29,7 @@ public class PermissionAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         PermissionRequest annotation = method.getAnnotation(PermissionRequest.class);
-        PermissionEnum[] permission = annotation.value();
+        String[] permission = annotation.value();
         Object target = joinPoint.getTarget();
         FragmentActivity fragmentActivity;
         if (target instanceof FragmentActivity) {
@@ -37,7 +37,7 @@ public class PermissionAspect {
         } else if (target instanceof Fragment) {
             fragmentActivity = ((Fragment) target).getActivity();
         } else {
-            throw new NullPointerException("注解权限申请只能在FragmentActivity或者Fragment环境");
+            throw new PermissionRequestException("注解权限申请只能在FragmentActivity或者Fragment环境及其子类环境下使用");
         }
         final FragmentActivity finalFragmentActivity = fragmentActivity;
         PermissionUtil.getInstance(fragmentActivity)

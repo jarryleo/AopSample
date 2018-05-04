@@ -1,1 +1,1 @@
-include ':app', ':permissionlib', ':permission-plug'
+include ':app', ':permission-lib', ':permission-plugin'

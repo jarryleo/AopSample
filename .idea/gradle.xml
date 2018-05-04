@@ -9,8 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/permission-plug" />
-            <option value="$PROJECT_DIR$/permissionlib" />
+            <option value="$PROJECT_DIR$/permission-lib" />
+            <option value="$PROJECT_DIR$/permission-plugin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
