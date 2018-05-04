@@ -52,7 +52,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'maven' // 上传到中央仓库的名称
-        name = 'permission-plug' // 上传到jcenter 的项目名称
+        name = 'permission-plugin' // 上传到jcenter 的项目名称
         desc = 'permission gradle' // 项目描述
         websiteUrl = siteUrl
         issueTrackerUrl = issueUrl

@@ -37,7 +37,8 @@ public class PermissionAspect {
         } else if (target instanceof Fragment) {
             fragmentActivity = ((Fragment) target).getActivity();
         } else {
-            throw new PermissionRequestException("注解权限申请只能在FragmentActivity或者Fragment环境及其子类环境下使用");
+            throw new PermissionRequestException(
+                    "The annotation permission can only be used in FragmentActivity or Fragment environment and its subclass environment.");
         }
         final FragmentActivity finalFragmentActivity = fragmentActivity;
         PermissionUtil.getInstance(fragmentActivity)
@@ -54,7 +55,7 @@ public class PermissionAspect {
 
                     @Override
                     public void onFailed() {
-                        Toast.makeText(finalFragmentActivity, "获取权限失败，操作无法完成!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(finalFragmentActivity, finalFragmentActivity.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                     }
                 });
 

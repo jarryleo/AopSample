@@ -84,7 +84,7 @@ public class PermissionUtil {
                                         .append("] ");
                             }
                         }
-                        openSettingActivity("本次操作需要" + sb.toString() + "权限,是否前往设置开启?");
+                        openSettingActivity(getString(R.string.permission_should_show_rationale, sb.toString()));
                     } else {
                         mResult.onFailed();
                     }
@@ -156,8 +156,8 @@ public class PermissionUtil {
                                          DialogInterface.OnClickListener cancelListener) {
             new AlertDialog.Builder(getActivity())
                     .setMessage(message)
-                    .setPositiveButton("开启", okListener)
-                    .setNegativeButton("拒绝", cancelListener)
+                    .setPositiveButton(getString(R.string.permission_dialog_granted), okListener)
+                    .setNegativeButton(getString(R.string.permission_dialog_denied), cancelListener)
                     .create()
                     .show();
         }
@@ -277,7 +277,7 @@ public class PermissionUtil {
     private void requestPermission() {
 
         if (mActivity.getSupportFragmentManager().findFragmentByTag(tag) == null) {
-            throw new PermissionRequestException("一个权限申请工具类对象只能申请一次权限");
+            throw new PermissionRequestException(mActivity.getString(R.string.permission_request_exception));
         }
         if (mFragmentCallback != null && mPermissions != null) {
             mFragmentCallback.setPermissions(mPermissions);
@@ -294,14 +294,16 @@ public class PermissionUtil {
             }
             //如果用户点了不提示(或者同时申请多个权限)，我们主动提示用户
             if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, mPermissions[0])) {
-                mFragmentCallback.openSettingActivity("需要" + sb.toString() + "权限,前往开启?");
+                mFragmentCallback.openSettingActivity(
+                        mActivity.getString(R.string.permission_should_show_rationale, sb.toString()));
             } else {
                 //申请权限
                 try {
                     mFragmentCallback.setRequestTime();
                     mFragmentCallback.requestPermissions(per, REQUEST_CODE);
                 } catch (Exception e) {
-                    mFragmentCallback.openSettingActivity("需要" + sb.toString() + "权限,前往开启?");
+                    mFragmentCallback.openSettingActivity(
+                            mActivity.getString(R.string.permission_should_show_rationale, sb.toString()));
                 }
             }
         }
